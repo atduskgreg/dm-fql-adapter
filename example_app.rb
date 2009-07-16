@@ -6,7 +6,7 @@ require 'dm-fql-adapter'
 class User
   include DataMapper::Resource
 
-  property :uid, Integer
+  property :uid, Serial # !important
   property :name, String
   property :sex, String
   property :pic_big, String
@@ -22,7 +22,6 @@ post "/" do
     )
   adapter.resource_naming_convention = DataMapper::NamingConventions::Resource::Underscored
 
-  user = User.all( :uid => "500409376" )
-  puts user.inspect
-  "hi"
+  user = User.get(500409376)
+  "#{user.name} - #{user.sex} <img src=\"#{user.pic_big}\" />"
 end

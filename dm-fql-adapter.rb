@@ -27,7 +27,6 @@ module DataMapper
       end
       
       def read(query)        
-        model = query.model
         q = select_statement(query).to_s
       
         # hack around the mysterious '?'
