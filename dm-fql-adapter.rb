@@ -3,8 +3,6 @@ require DataMapper.root / 'lib' / 'dm-core' / 'adapters' / 'data_objects_adapter
 require 'facemask'
 require 'json'
 
-
-
 module DataMapper
   module Adapters
     
@@ -28,29 +26,19 @@ module DataMapper
                                  :session_key => options[:session_key]
       end
       
-      def read(query)
+      def read(query)        
         model = query.model
         q = select_statement(query).to_s
-
+      
         # hack around the mysterious '?'
         q = q.gsub(/\?(\w*)/){"\"#{$1}\""}
-        
+
         results = @facebook.find_by_fql(q)
         results = JSON.parse(results)
         query.filter_records(results)
       end
       
-      def create(resources)
-        raise NotImplementedError, "#{self.class}#create not implemented"
-      end
-      
-      def update(attributes, collection)
-        raise NotImplementedError, "#{self.class}#update not implemented"
-      end
-      
-      def delete(collection)
-        raise NotImplementedError, "#{self.class}#delete not implemented"
-      end
+
     end # class FqlAdapter
   end
 end
