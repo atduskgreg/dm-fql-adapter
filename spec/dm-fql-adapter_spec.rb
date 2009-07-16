@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'spec'
 require 'dm-core'
-require 'dm-fql-adapter'
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/dm-fql-adapter.rb'
 
 class User
   include DataMapper::Resource
@@ -19,7 +19,6 @@ describe DataMapper::Adapters::FqlAdapter do
     @adapter = DataMapper.setup(:default, :adapter   => 'fql',
                                           :api_key  => 'api',
                                           :secret_key      => 'secret')
-    # @adapter.resource_naming_convention = DataMapper::NamingConventions::Resource::Underscored
   end
 
   it "should generate the correct FQL" do

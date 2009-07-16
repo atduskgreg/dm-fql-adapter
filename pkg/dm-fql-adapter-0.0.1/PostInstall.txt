@@ -1,0 +1,3 @@
+For more information on dm-fql-adapter, see http://github.com/atduskgreg/dm-fql-adapter
+
+

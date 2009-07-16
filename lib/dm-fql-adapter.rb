@@ -1,6 +1,10 @@
+$:.unshift(File.dirname(__FILE__)) unless
+  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+
+require 'dm-core'  
 require DataMapper.root / 'lib' / 'dm-core' / 'adapters' / 'abstract_adapter'
 require DataMapper.root / 'lib' / 'dm-core' / 'adapters' / 'data_objects_adapter'
-require 'facemask'
+require File.expand_path(File.dirname(__FILE__)) + '/dm-fql-adapter/facemask.rb'
 require 'json'
 
 module DataMapper
