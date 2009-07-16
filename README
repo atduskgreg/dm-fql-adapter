@@ -1,0 +1,4 @@
+The beginnings of a FQL adapter for DataMapper. Very basic so far. 
+
+TODO: 
+- figure out why the collection object chokes when trying to iterate
