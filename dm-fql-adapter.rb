@@ -33,7 +33,7 @@ module DataMapper
       
         # hack around the mysterious '?'
         q = q.gsub(/\?(\w*)/){"\"#{$1}\""}
-        puts q
+
         results = @facebook.find_by_fql(q)
         results = JSON.parse(results)
         query.filter_records(results)

@@ -14,10 +14,9 @@ class Facemask
     @session_key = opts[:session_key]
   end
   
-  def post(method, params)
-    params.merge! generate_params(method)
-    params.merge! :sig => signature_for(params)
-    Facemask.execute(params)
+  # Execute raw FQL and return the results in JSON
+  def find_by_fql(query)
+    post('facebook.fql.query', :query => query, :format => "json")
   end
   
   # Sends a templatized feed for the given bundle_id with the given data hash.
@@ -25,16 +24,20 @@ class Facemask
     post("facebook.feed.publishUserAction", {:template_bundle_id=> bundle_id, 
                                              :template_data => data.to_json} )
   end
-  
-  def find_by_fql(query)
-    post('facebook.fql.query', :query => query, :format => "json")
-  end
-  
+
   def publish_page_feed(data)
     data[:title_template] ||= "{actor} Item"
     post("facebook.feed.publishTemplatizedAction", data)
   end
   
+  def post(method, params)
+    params.merge! generate_params(method)
+    params.merge! :sig => signature_for(params)
+    Facemask.execute(params)
+  end
+  
+    
+
   def self.execute(params)
     begin
       puts "[FBOOK REQUEST] #{params.inspect}"
