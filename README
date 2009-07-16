@@ -1,4 +1,7 @@
-The beginnings of a FQL adapter for DataMapper. Very basic so far. 
+An FQL Adapter for DataMapper. Read-only.
 
-TODO: 
-- figure out why the collection object chokes when trying to iterate
+FQL is the "Facebook Query Language": an API that allows you to send SQL-ish strings along with session information and API credentials to Facebook in order to query for information about users, comments, stream activity and more. See the FQL docs here: http://wiki.developers.facebook.com/index.php/FQL
+
+For usage see example_app.rb.
+
+As of 7/16/09, this only ran on the DataMapper Next branch (i.e. 0.10). For details on how to upgrade to that branch, see here: http://sick.snusnu.info/2009/06/03/migrating-to-datamapper-0100/

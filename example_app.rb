@@ -5,8 +5,9 @@ require 'dm-fql-adapter'
 
 class User
   include DataMapper::Resource
-
-  property :uid, Serial # !important
+  
+  # NB: If you don't pick a key DM will act weird
+  property :uid, Integer, :key => true 
   property :name, String
   property :sex, String
   property :pic_big, String
@@ -15,13 +16,12 @@ end
 post "/" do
   adapter = DataMapper.setup(:default, 
     {:adapter => 'fql', 
-     :api_key => "a8b912453d364ae459df95fea72b95a8", 
-     :secret_key => "7401713381e2d6a8092806a4b0c1eee1", 
+     :api_key => "YOUR API KEY", 
+     :secret_key => "YOUR SECRET KEY", 
      :session_key => params[:fb_sig_session_key]
       }
     )
-  adapter.resource_naming_convention = DataMapper::NamingConventions::Resource::Underscored
 
-  user = User.get(500409376)
+  user = User.get(546502145)
   "#{user.name} - #{user.sex} <img src=\"#{user.pic_big}\" />"
 end

@@ -21,6 +21,8 @@ module DataMapper
       def initialize(name, options={})
         super
         
+        self.resource_naming_convention = DataMapper::NamingConventions::Resource::Underscored        
+        
         @facebook = Facemask.new :api_key     => options[:api_key],
                                  :secret_key  => options[:secret_key],
                                  :session_key => options[:session_key]
@@ -31,7 +33,7 @@ module DataMapper
       
         # hack around the mysterious '?'
         q = q.gsub(/\?(\w*)/){"\"#{$1}\""}
-
+        puts q
         results = @facebook.find_by_fql(q)
         results = JSON.parse(results)
         query.filter_records(results)
