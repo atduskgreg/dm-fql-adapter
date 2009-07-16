@@ -11,6 +11,7 @@ class Facemask
   def initialize opts={}
     @api_key = opts[:api_key]
     @secret_key = opts[:secret_key]
+    @session_key = opts[:session_key]
   end
   
   def post(method, params)
@@ -23,6 +24,10 @@ class Facemask
   def publish_user_feed(bundle_id, data)
     post("facebook.feed.publishUserAction", {:template_bundle_id=> bundle_id, 
                                              :template_data => data.to_json} )
+  end
+  
+  def find_by_fql(query)
+    post('facebook.fql.query', :query => query, :format => "json")
   end
   
   def publish_page_feed(data)
@@ -59,7 +64,7 @@ class Facemask
   def generate_params(method)
     result = {}
     if session_key
-      hash[:session_key] = session_key    
+      result[:session_key] = session_key    
     end
     
     result[:method] = method
