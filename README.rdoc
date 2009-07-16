@@ -6,7 +6,7 @@ For usage, see example_app.rb.
 
 As of 7/16/09, this only ran on the DataMapper Next branch (i.e. 0.10). For details on how to upgrade to that branch, see here: http://sick.snusnu.info/2009/06/03/migrating-to-datamapper-0100/
 
-At some point, I will probably factor this into a gem. You know, if people bug me.
+Install as a gem: sudo gem install atduskgreg-dm-fql-adapter
 
 Also, this repo includes Facemask, a more straightforward approach to querying the Facebook API than some of the more complex libs out there.
 
