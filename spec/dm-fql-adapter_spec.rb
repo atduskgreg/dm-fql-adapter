@@ -21,7 +21,7 @@ class Stream
 end
 
 describe DataMapper::Adapters::FqlAdapter do
-  before :all do
+  before do
     Facemask.stub!(:new).and_return(@f = mock('Facemask'))                                      
 
     @adapter = DataMapper.setup(:default, :adapter   => 'fql',
@@ -35,11 +35,15 @@ describe DataMapper::Adapters::FqlAdapter do
   end
 
   it "should package up the objects correctly even if there are multiple entries returned" do
+   
     @f.stub!(:find_by_fql).and_return('[{"post_id":"103592400571_124417260882","source_id":103592400571,"message":"This is another post."},{"post_id":"103592400571_126720720199","source_id":103592400571,"message":"Check it out!"}]')
+
     result = Stream.all( :source_id => 103592400571)
+
     result.collect{|s| s.message}.should include("This is another post.")
     result.collect{|s| s.message}.should include("Check it out!")
-
   end
+  
+
 
 end

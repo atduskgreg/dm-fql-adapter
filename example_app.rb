@@ -32,7 +32,7 @@ post "/" do
       }
     )
     
-    f = Facemask.new :api_key => "a8b912453d364ae459df95fea72b95a8", 
+    #f = Facemask.new :api_key => "a8b912453d364ae459df95fea72b95a8", 
                     :secret_key => "7401713381e2d6a8092806a4b0c1eee1", 
                     :session_key => params[:fb_sig_session_key]
                                  

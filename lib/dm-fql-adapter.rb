@@ -9,37 +9,50 @@ require 'json'
 
 module DataMapper
   module Adapters
-    
-    class DataObjectsAdapter
-      module SQL
-        def quote_name(name)
-          name
-        end
-      end
-    end
+  
     
     class FqlAdapter < AbstractAdapter
 
       include DataMapper::Adapters::DataObjectsAdapter::SQL
+
+      # override DataObjectsAdapter::SQL#quote_name
+      def quote_name(name)
+        name
+      end
+      
+      def quote_value(value)
+        case value
+        when Array
+          "(#{value.map { |entry| quote_value(entry) }.join(', ')})"
+        else
+          "\"#{value}\""
+        end
+      end
 
       def initialize(name, options={})
         super
         
         self.resource_naming_convention = DataMapper::NamingConventions::Resource::Underscored        
         
-        @facebook = Facemask.new :api_key     => options[:api_key],
-                                 :secret_key  => options[:secret_key],
-                                 :session_key => options[:session_key]
+        @facebook = Facemask.new :api_key => options[:api_key],
+                                 :secret_key => options[:secret_key],
+                                 :session_key => options[:session_key]        
       end
       
       def read(query)        
-        q = select_statement(query).to_s
-      
-        # hack around the mysterious '?'
-        q = q.gsub(/\?(\w*)/){"\"#{$1}\""}
-
-        results = @facebook.find_by_fql(q)
+        statement, bind_values = select_statement(query)
+    
+        statement.gsub!(/\?/) { quote_value(bind_values.shift) }
+    
+        results = @facebook.find_by_fql(statement)
+        
         results = JSON.parse(results)
+        
+        puts
+        puts "DM JSON**********"
+        puts results.inspect
+        puts
+        
         query.filter_records(results)
       end
       
